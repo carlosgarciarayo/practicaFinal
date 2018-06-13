@@ -1,0 +1,178 @@
+ <!DOCTYPE html>
+<html ng-app="projects">
+<head>
+<meta charset="ISO-8859-1">
+
+<!-- <!-- Iconos Google --> 
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<!-- <!-- CSS MATERIALIZE --> 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css">
+<link href="css/angular-datepicker.css" rel="stylesheet" type="text/css" />
+<link href="css/angular-csp.css" rel="stylesheet" type="text/css" />
+<link href="css/projects.css" rel="stylesheet" type="text/css" />
+
+<!-- JS JQUERY y MATERIALIZE -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/js/materialize.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-materialize/0.2.2/angular-materialize.min.js"></script>
+<script type="text/javascript" src="js/projectService.js"></script>
+<script type="text/javascript" src="js/projectController.js"></script>
+<title>GESTION DE EMPRESA - PROYECTOS</title>
+</head>
+<body ng-controller="projectController as projectCtrl" ng-cloak>
+
+ <nav class="nav-extended">
+    <div class="nav-wrapper blue lighten-2">
+      <a href="index.html" class="brand-logo">Gestion de empresa</a>
+      <a href="index.html" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="index.html">Empleados</a></li>
+        <li><a href="projects.html">Proyectos</a></li>
+      </ul>
+      <ul class="side-nav" id="mobile-demo">
+        <li><a href="index.html">Empleados</a></li>
+        <li><a href="projects.html">Proyectos</a></li>
+      </ul>
+    </div>
+    <div class="nav-content blue lighten-2">
+      <ul class="tabs tabs-transparent">
+        <li class="tab"><a href="#consultProject">Consultar Proyectos</a></li>
+        <li class="tab"><a href="#addProject">Añadir Proyecto</a></li>
+        <li class="tab"><a href="#deleteProject">Baja proyecto</a></li>
+        <li class="tab"><a href="#assignEmployees">Asignar empleados</a>
+      </ul>
+    </div>
+  </nav>
+ 
+ <div id="consultProject">
+<div class="container" style="width:70%">
+	<table class="responsive-table centered striped">
+	<thead>
+		<tr>
+			<th>Descripcion</th>
+		    <th>Fecha Inicio</th>
+		    <th>Fecha Fin</th> 
+		    <th>Lugar</th> 
+		    <th>Observaciones</th>
+		</tr> 
+		</thead>
+		<tbody>
+		  <tr ng-repeat="project in projectCtrl.projects | orderBy:'-idProyecto'">
+		  	<td>{{ project.descripcion }}</td>
+		    <td>{{ project.fInicio | date : "dd/MM/yyyy" }}</td>
+		    <td>{{ project.fFin | date : "dd/MM/yyyy" }}</td>
+		    <td>{{ project.lugar }}</td>
+		    <td>{{ project.observaciones }}</td>
+		  </tr>
+		 </tbody>
+	</table>
+</div>
+
+</div>
+ 
+<div id="deleteProject">
+<div class="container" style="width:70%">
+	<table class="responsive-table centered striped">
+	<thead>
+		<tr>
+			<th>Descripcion</th>
+		    <th>Fecha Inicio</th>
+		    <th>Fecha Fin</th> 
+		    <th>Lugar</th> 
+		    <th>Observaciones</th>
+		</tr> 
+		</thead>
+		<tbody>
+		  <tr ng-repeat="project in projectCtrl.projects | orderBy:'-idProyecto'">
+		  	<td>{{ project.descripcion }}</td>
+		    <td>{{ project.fInicio | date : "dd/MM/yyyy" }}</td>
+		    <td>{{ project.fFin | date : "dd/MM/yyyy" }}</td>
+		    <td>{{ project.lugar }}</td>
+		    <td><a ng-click="deleteProject(project.idProyecto)" class="btn-floating btn waves-effect waves-light blue"><i class="material-icons md-18">clear</i></a></td>
+		  </tr>
+		 </tbody>
+	</table>
+</div>
+</div>
+
+ <div id="addProject">
+ <div class="row" style="width:70%">
+    <form name="addProjectForm" class="col s12" ng-submit="projectCtrl.addProject()">
+      <div class="row">
+      <h3>Informacion del proyecto</h3>
+        <div class="input-field col s6">
+          <textarea id="descripcion" class="materialize-textarea" ng-model="project.descripcion" maxlength="125" data-length="125" required></textarea>
+          <label for="descripcion">Descripcion</label>
+        </div>
+        <div class="input-field col s6">
+          <textarea id="observaciones" class="materialize-textarea" ng-model="project.observaciones" maxlength="300" data-length="300" required></textarea>
+          <label for="observaciones">Observaciones</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s4">
+          <input ng-model="project.lugar" id="lugar" type="text" class="validate" maxlength="30" data-length="30" required>
+          <label for="lugar">Lugar</label>
+        </div>
+        </div>
+		<div class="row">
+        <div class="input-field col s6">
+        	<div>
+				<datepicker date-format="dd/MM/yyyy">
+				  <input id="fInicio" ng-model="project.fInicio" type="text" class="validate"
+				  pattern="(0[1-9]|1[0-9]|2[0-9]|3[01])/(0[1-9]|1[012])/[0-9]{4}" required/>
+				</datepicker>
+				<label for="fInicio" class="active">Fecha de Inicio</label>
+			</div>
+		</div>
+		<div class="input-field col s6">
+        	<div>
+				<datepicker date-format="dd/MM/yyyy">
+				  <input id="fFin" ng-model="project.fFin" type="text" class="validate"
+				  pattern="(0[1-9]|1[0-9]|2[0-9]|3[01])/(0[1-9]|1[012])/[0-9]{4}" required/>
+				</datepicker>
+				<label for="fFin" class="active">Fecha de Finalizacion</label>
+			</div>
+		</div>
+	</div>
+      <div class="row center">
+      	<button class="btn waves-effect waves-light blue" type="submit" ng-disabled="addProjectForm.$invalid">Añadir
+	    	<i class="material-icons right">send</i>
+	  </button>
+      </div>
+    </form>
+	</div>
+ </div>
+ 
+ <div class="container" id="assignEmployees">
+ 		<h3>Proyectos</h3>
+		<ul class="collapsible popout" data-collapsible="accordion">
+		  <li ng-repeat="project in projectCtrl.projectsNotFinalized" ng-click="setProjectSelected(project.idProyecto)">
+		    <div class="collapsible-header projectList">
+		      {{project.descripcion}}
+		    <div class="collapsible-body"><span>{{project.observaciones}}</span></div>
+		  </li>
+		  
+		</ul>  
+ 		<h3>Lista de empleados asignados al proyecto</h3>	
+
+	 	<ul id="employeeList">
+	 		<li ng-repeat="employee in projectCtrl.employees">
+	 		<div>
+	 			<p>
+			      <input type="checkbox" class="filled-in checkbox-blue" id="{{employee.idEmpleado}}" 
+			      ng-checked="employee.checked" ng-change="checkEmployee(employee.idEmpleado,employee.checked)" ng-model="employee.checked" />
+			      <label for="{{employee.idEmpleado}}">{{employee.nombre}} {{employee.apellido1}} {{employee.apellido2}}</label>
+			    </p>
+			</div>
+	 		</li>
+	 	</ul> 
+	 	
+	 	<a class="waves-effect waves-light btn blue" onclick="Materialize.toast('Actualizado!', 4000)" ng-click="saveChanges()">Actualizar</a>
+ </div>
+
+ 
+<script src="js/angular-datepicker.js"></script>
+</body>
+</html>

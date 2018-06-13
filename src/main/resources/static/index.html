@@ -1,0 +1,201 @@
+ <!DOCTYPE html>
+<html ng-app="company">
+<head>
+<meta charset="ISO-8859-1">
+
+<!-- <!-- Iconos Google --> 
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<!-- <!-- CSS MATERIALIZE --> 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css">
+<link href="css/angular-datepicker.css" rel="stylesheet" type="text/css" />
+<link href="css/angular-csp.css" rel="stylesheet" type="text/css" />
+
+<!-- JS JQUERY y MATERIALIZE -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-route.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/js/materialize.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-materialize/0.2.2/angular-materialize.min.js"></script>
+<script type="text/javascript" src="js/app.js"></script>
+<script type="text/javascript" src="js/employeeService.js"></script>
+<title>GESTION DE EMPRESA</title>
+</head>
+<body ng-controller="employeeController as employeeCtrl" ng-cloak>
+
+ <nav class="nav-extended blue lighten-2">
+    <div class="nav-wrapper">
+      <a href="index.html" class="brand-logo">Gestion de empresa</a>
+      <a href="index.html" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="index.html">Empleados</a></li>
+        <li><a href="projects.html">Proyectos</a></li>
+      </ul>
+      <ul class="side-nav" id="mobile-demo">
+        <li><a href="empleados.html">Empleados</a></li>
+        <li><a href="projects.html">Proyectos</a></li>
+      </ul>
+    </div>
+    <div class="nav-content blue lighten-2">
+      <ul class="tabs tabs-transparent">
+        <li class="tab"><a href="#consultEmployee">Consultar Empleados</a></li>
+        <li class="tab"><a href="#addEmployee">Alta empleado</a></li>
+        <li class="tab"><a href="#deleteEmployee">Baja empleado</a></li>
+      </ul>
+    </div>
+  </nav>
+
+<div id="consultEmployee">
+<div class="container" style="width:70%">
+	<table class="responsive-table centered striped">
+	<thead>
+		<tr>
+			<th>NIF</th>
+		    <th>Nombre</th>
+		    <th>Primer Apellido</th> 
+		    <th>Segundo Apellido</th> 
+		    <th>Fecha Nacimiento</th>
+		   	<th>Telefono 1</th>
+		   	<th>Email</th>
+		   	<th>Estado Civil</th>
+		   	<th>Servicio Militar</th>
+		</tr> 
+		</thead>
+		<tbody>
+		  <tr ng-repeat="employee in employeeCtrl.employees | orderBy:'-idEmpleado'">
+		  	<td>{{ employee.nif }}</td>
+		    <td>{{ employee.nombre }}</td>
+		    <td>{{ employee.apellido1 }}</td>
+		    <td>{{ employee.apellido2 }}</td>
+		    <td>{{ employee.fNacimiento | date : "dd/MM/yyyy"}}</td>
+		    <td>{{ employee.telefono1 }}</td>
+		    <td>{{ employee.email }}</td>
+		    <td>{{ employee.edoCivil }}</td>
+		    <td>{{ employee.servMilitar }}</td>
+		  </tr>
+		 </tbody>
+	</table>
+</div>
+</div>
+
+  
+<div id="deleteEmployee">
+<div class="container" style="width:70%">
+	<table class="responsive-table centered striped">
+	<thead>
+		<tr>
+			<th>NIF</th>
+		    <th>Nombre</th>
+		    <th>Primer Apellido</th> 
+		    <th>Segundo Apellido</th> 
+		    <th>Fecha Nacimiento</th>
+		   	<th>Telefono 1</th>
+		   	<th>Email</th>
+		   	<th>Estado Civil</th>
+		   	<th>Servicio Militar</th>
+		</tr> 
+		</thead>
+		<tbody>
+		  <tr ng-repeat="employee in employeeCtrl.employees | orderBy:'-idEmpleado'">
+		  	<td>{{ employee.nif }}</td>
+		    <td>{{ employee.nombre }}</td>
+		    <td>{{ employee.apellido1 }}</td>
+		    <td>{{ employee.apellido2 }}</td>
+		    <td>{{ employee.fNacimiento | date : "dd/MM/yyyy"}}</td>
+		    <td>{{ employee.telefono1 }}</td>
+		    <td>{{ employee.email }}</td>
+		    <td>{{ employee.edoCivil }}</td>
+		    <td>{{ employee.servMilitar }}</td>
+		    <td><a ng-click="deleteEmployee(employee.idEmpleado)" class="btn-floating btn waves-effect waves-light blue"><i class="material-icons md-18">clear</i></a></td>
+		  </tr>
+		 </tbody>
+	</table>
+</div>
+</div>
+
+ <div id="addEmployee">
+ <div class="row" style="width:70%">
+    <form name="addEmployeeForm" class="col s12" ng-submit="employeeCtrl.addEmployee()">
+    <div class="row">
+    <h3>Informacion</h3>
+      <div class="row">
+        <div class="input-field col s4">
+          <input ng-model="employee.nombre" id="nombre" type="text" class="validate" required title="Se necesita un nombre">
+          <label for="nombre">Nombre</label>
+        </div>
+        <div class="input-field col s4">
+          <input ng-model="employee.apellido1" id="apellido1" type="text" class="validate" required title="Se necesita un primer apellido">
+          <label for="apellido1">Primer apellido</label>
+        </div>
+        <div class="input-field col s4">
+          <input ng-model="employee.apellido2" id="apellido2" type="text" class="validate" required title="Se necesita un segundo apellido">
+          <label for="apellido2">Segundo apellido</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s3">
+          <input ng-model="employee.nif" id="nif" type="text" class="validate" data-length="9" maxLength="9" pattern="(\d{8})([A-Z]{1})" required title="Se necesita un DNI valido (00000000X)">
+          <label for="nif">NIF</label>
+        </div>
+        <div class="input-field col s3">
+        	<div>
+				<datepicker date-format="dd/MM/yyyy">
+				  <input id="fNacimiento" ng-model="employee.fNacimiento" type="text" 
+				  class="validate" required title="Se necesita una fecha de nacimiento" pattern="(0[1-9]|1[0-9]|2[0-9]|3[01])/(0[1-9]|1[012])/[0-9]{4}"/>
+				</datepicker>
+				<label for="fNacimiento" class="active">Fecha de Nacimiento</label>
+			</div>
+		</div>
+		<div class="input-field col s3">
+			<select ng-model="employee.edoCivil" material-select watch required title="Se necesita un estado civil">
+			    <option value="" disabled selected>Elegir estado civil</option>
+				<option value="S">Soltero</option>
+				<option value="C">Casado</option>
+			</select> 
+			<label>Estado Civil</label>
+		</div>
+		<div class="input-field col s3">
+			<select ng-model="employee.servMilitar" material-select watch required title="Se necesita especificar el servicio militar">
+				<option value="" disabled selected>Elegir servicio militar</option>
+				<option value="S">Si
+				<option value="N">No
+			</select> 
+			<label>Servicio Militar</label>
+		</div>
+      </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s4">
+          <input ng-model="employee.email" id="email" type="email" class="validate" required title="Se necesita un email valido">
+          <label for="email">Email</label>
+        </div>
+        <div class="input-field col s4" style="width:22%">
+          <input ng-model="employee.telefono1" id="telefono1" type="text" class="validate" data-length="9" maxLength="9" pattern="(\d{9})" required title="Se necesita un telefono valido">
+          <label for="telefono1">Telefono 1</label>
+        </div>
+        <div class="input-field col s4" style="width:22%">
+          <input ng-model="employee.telefono2" id="telefono2" type="text" class="validate" data-length="9" maxLength="9" pattern="(\d{9})" required title="Se necesita un telefono valido">
+          <label for="telefono2">Telefono 2</label>
+        </div>
+	   </div>
+      <div class="row">
+      	<div class="input-field col s4">
+        	<div>
+				<datepicker date-format="dd/MM/yyyy">
+				  <input id="fAlta" ng-model="employee.fAlta" type="text" class="validate" 
+				  pattern="(0[1-9]|1[0-9]|2[0-9]|3[01])/(0[1-9]|1[012])/[0-9]{4}" required title="Se necesita una fecha de alta"/>
+				</datepicker>
+				<label for="fAlta" class="active">Fecha de Alta</label>
+			</div>
+		</div>
+      </div>
+      <div class="row center">
+      	<button class="btn waves-effect waves-light blue" type="submit" id="register" ng-disabled="addEmployeeForm.$invalid">Alta
+	    	<i class="material-icons right">send</i>
+	  </button>
+      </div>
+    </form>
+</div>
+ </div>
+<script src="js/angular-datepicker.js"></script>
+</body>
+</html>

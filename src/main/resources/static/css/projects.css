@@ -1,0 +1,8 @@
+.projectList.active{
+	background-color: #64B5F6;
+}
+
+.checkbox-blue[type="checkbox"].filled-in:checked + label:after{
+     border: 2px solid #64B5F6;
+     background-color: #64B5F6;
+}
